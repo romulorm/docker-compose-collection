@@ -1,0 +1,15 @@
+# https://github.com/semaphoreui/semaphore
+
+services:
+    semaphore:
+        image: 'semaphoreui/semaphore:latest'
+        environment:
+            - SEMAPHORE_ADMIN_EMAIL=${SEMAPHORE_ADMIN_EMAIL}
+            - SEMAPHORE_ADMIN_NAME=${SEMAPHORE_ADMIN_NAME}
+            - SEMAPHORE_ADMIN_PASSWORD=${SEMAPHORE_ADMIN_PASSWORD}
+            - SEMAPHORE_ADMIN=${SEMAPHORE_ADMIN}
+            - SEMAPHORE_DB_DIALECT=bolt
+            - TZ=America/Sao_Paulo
+        container_name: semaphore
+        ports:
+            - 8081:3000

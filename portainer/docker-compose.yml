@@ -1,0 +1,15 @@
+#https://docs.portainer.io/start/install-ce/server/docker/linux
+
+services:
+    portainer-ce:
+        image: 'portainer/portainer-ce:2.26.1-alpine'
+        volumes:
+            - './portainer_data:/data'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        restart: unless_stopped
+        container_name: portainer
+        ports:
+            - 9443:9443
+            - 8000:8000
+        environment:
+            - TZ=America/Sao_Paulo
