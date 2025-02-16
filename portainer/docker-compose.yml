@@ -4,7 +4,7 @@ services:
         volumes:
             - './portainer_data:/data'
             - '/var/run/docker.sock:/var/run/docker.sock'
-        restart: unless_stopped
+        restart: unless-stopped
         container_name: portainer
         ports:
             - 9443:9443
