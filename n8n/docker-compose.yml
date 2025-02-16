@@ -95,3 +95,6 @@ services:
       environment:
         - TZ=America/Sao_Paulo
         - OLLAMA_HOST=ollama:11434
+
+# Acessar o N8N em http://localhost:5678
+# Acessar o Open-webui em http://localhost:8089

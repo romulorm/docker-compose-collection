@@ -145,3 +145,5 @@ services:
      interval: 10s
      timeout: 10s
      retries: 120
+
+# Acessar o Kibana em http://localhost:5601
