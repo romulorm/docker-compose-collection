@@ -13,4 +13,4 @@ services:
             - TZ=America/Sao_Paulo
 
 
-# Acessar o Open-webui em http://localhost:8000
+# Acesse o Portainer em https://localhost:9443

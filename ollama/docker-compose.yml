@@ -13,4 +13,4 @@ services:
         - TZ=America/Sao_Paulo
         - OLLAMA_HOST=ollama:11434
 
-# Acessar o Open-webui em http://localhost:8089
+# Acesse o Open-webui em http://localhost:8089

@@ -146,4 +146,4 @@ services:
      timeout: 10s
      retries: 120
 
-# Acessar o Kibana em http://localhost:5601
+# Acesse o Kibana em http://localhost:5601

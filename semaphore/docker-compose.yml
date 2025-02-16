@@ -14,4 +14,4 @@ services:
         ports:
             - 8081:3000
 
-# Acessar a UI em http://localhost:8081
+# Acesse a UI em http://localhost:8081
