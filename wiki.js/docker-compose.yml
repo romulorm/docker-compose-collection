@@ -1,3 +1,6 @@
+networks:
+    wikinet: {}
+
 volumes:
   certs:
     driver: local
@@ -6,15 +9,69 @@ volumes:
   kibanadata:
     driver: local
 
-networks:
-  default:
-    name: elastic
-    external: false
-
-
 services:
-  setup:
+  postgres:
+    image: postgres:15
+    networks:
+      wikinet: {}
+    hostname: db
+    restart: unless-stopped
+    volumes:
+      - './pgdata:/var/lib/postgresql/data'
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_DB=${POSTGRES_DB}
+    container_name: db
+  wikijs:
+    image: ghcr.io/requarks/wiki:2
+    ports:
+      - 8443:3443
+      - 8082:3000
+    networks:
+      wikinet: {}
+    hostname: wiki
+    restart: unless-stopped
+    environment:
+      - UPGRADE_COMPANION=1
+      - DB_NAME=${POSTGRES_DB}
+      - DB_USER=${POSTGRES_USER}
+      - DB_PASS=${POSTGRES_PASSWORD}
+      - DB_PORT=5432
+      - DB_HOST=db
+      - DB_TYPE=postgres
+    volumes:
+        - './wiki/data/sideload:/etc/wiki/data/sideload'
+    container_name: wikijs
+  wiki-update-companion:
+    image: ghcr.io/requarks/wiki-update-companion:latest
+    networks:
+      wikinet: {}
+    hostname: wiki-update-companion
+    restart: unless-stopped
+    volumes:
+      - '/var/run/docker.sock:/var/run/docker.sock:ro'
+    container_name: wiki-update-companion
+
+
+
+# Acesse a UI em http://localhost:8082
+
+
+
+# Elastic Search SETUP (Opcional)
+# volumes:
+#   certs:
+#     driver: local
+#   esdata01:
+#     driver: local
+#   kibanadata:
+#     driver: local
+
+  elastic_setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
+    networks:
+      wikinet: {}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
     user: "0"
@@ -70,11 +127,13 @@ services:
 
   es01:
     depends_on:
-      setup:
+      elastic_setup:
         condition: service_healthy
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     labels:
       co.elastic.logs/module: elasticsearch
+    networks:
+      wikinet: {}
     volumes:
       - certs:/usr/share/elasticsearch/config/certs
       - esdata01:/usr/share/elasticsearch/data
@@ -114,36 +173,44 @@ services:
       retries: 120
 
   kibana:
-   depends_on:
-     es01:
-       condition: service_healthy
-   image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
-   labels:
-     co.elastic.logs/module: kibana
-   volumes:
-     - certs:/usr/share/kibana/config/certs
-     - kibanadata:/usr/share/kibana/data
-   ports:
-     - ${KIBANA_PORT}:5601
-   environment:
-     - SERVERNAME=kibana
-     - ELASTICSEARCH_HOSTS=https://es01:9200
-     - ELASTICSEARCH_USERNAME=kibana_system
-     - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
-     - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
-     - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-     - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-     - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
-     - TZ=America/Sao_Paulo
-   mem_limit: ${KB_MEM_LIMIT}
-   healthcheck:
-     test:
-       [
-         "CMD-SHELL",
-         "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
-       ]
-     interval: 10s
-     timeout: 10s
-     retries: 120
+    depends_on:
+      es01:
+        condition: service_healthy
+    image: docker.elastic.co/kibana/kibana:${STACK_VERSION}
+    labels:
+      co.elastic.logs/module: kibana
+    volumes:
+      - certs:/usr/share/kibana/config/certs
+      - kibanadata:/usr/share/kibana/data
+    networks:
+      wikinet: {}
+    ports:
+      - ${KIBANA_PORT}:5601
+    environment:
+      - SERVERNAME=kibana
+      - ELASTICSEARCH_HOSTS=https://es01:9200
+      - ELASTICSEARCH_USERNAME=kibana_system
+      - ELASTICSEARCH_PASSWORD=${KIBANA_PASSWORD}
+      - ELASTICSEARCH_SSL_CERTIFICATEAUTHORITIES=config/certs/ca/ca.crt
+      - XPACK_SECURITY_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_ENCRYPTEDSAVEDOBJECTS_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - XPACK_REPORTING_ENCRYPTIONKEY=${ENCRYPTION_KEY}
+      - TZ=America/Sao_Paulo
+    mem_limit: ${KB_MEM_LIMIT}
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
+        ]
+      interval: 10s
+      timeout: 10s
+      retries: 120
 
 # Acesse o Kibana em http://localhost:5601
+
+
+
+
+
+
