@@ -1,0 +1,23 @@
+# PiKaraoke is a "KTV"-style karaoke song search and queueing system. It connects to your TV, and shows a QR code for computers and smartphones
+#  to connect to a web interface. From there, multiple users can seamlessly search your local track library, queue up songs, add an endless
+#  selection of new karaoke tracks from YouTube, and more. Works on Raspberry Pi, OSX, Windows, and Linux!
+
+# Use this docker compose or simply run: docker run vicwomg/pikaraoke:latest
+
+
+services:
+  pikaraoke:
+    image: vicwomg/pikaraoke:latest
+    container_name: PiKaraoke
+    ## Below Host network mode may work better on some systems and replace manual IP configuration. Does not work on OSX
+    network_mode: host
+    ## add additional command line args if needed in example below: debug level logging, manually specified URL
+    #command: -l10 --url http://<YOUR_LAN_IP>
+    volumes:
+      - ./songs:/app/pikaraoke-songs # Replace with local dir. to persist songs outside the container
+    restart: unless-stopped
+    ## Forward host port 80 to the pikaraoke web interface on 5555, adjust host port as necessary
+    ports:
+      - 5555:5555
+
+    # Acesse o Pikaraokê em https://localhost:8089

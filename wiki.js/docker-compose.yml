@@ -40,8 +40,6 @@ services:
       - DB_PORT=5432
       - DB_HOST=db
       - DB_TYPE=postgres
-    volumes:
-        - './wiki/data/sideload:/etc/wiki/data/sideload'
     container_name: wikijs
   wiki-update-companion:
     image: ghcr.io/requarks/wiki-update-companion:latest
@@ -55,18 +53,12 @@ services:
 
 
 
-# Acesse a UI em http://localhost:8082
+# Acesse a UI do Wiki.JS em http://localhost:8082
 
 
 
-# Elastic Search SETUP (Opcional)
-# volumes:
-#   certs:
-#     driver: local
-#   esdata01:
-#     driver: local
-#   kibanadata:
-#     driver: local
+# Elastic Search SETUP (somente se for utilizar o motor de busca Elastic)
+
 
   elastic_setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
