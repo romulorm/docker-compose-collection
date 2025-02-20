@@ -1,3 +1,8 @@
+networks:
+  default:
+    name: docker-network
+    external: false
+
 services:
   ollama:
       image: ghcr.io/open-webui/open-webui:ollama
@@ -11,6 +16,6 @@ services:
         - 11434:11434
       environment:
         - TZ=America/Sao_Paulo
-        - OLLAMA_HOST=ollama:11434
+        - OLLAMA_HOST=0.0.0.0:11434
 
 # Acesse o Open-webui em http://localhost:8089

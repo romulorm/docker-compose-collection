@@ -1,4 +1,12 @@
+# Modern UI for Ansible, Terraform, OpenTofu, PowerShell and other DevOps tools.
+
 # https://github.com/semaphoreui/semaphore
+
+
+networks:
+  default:
+    name: docker-network
+    external: true
 
 services:
     semaphore:

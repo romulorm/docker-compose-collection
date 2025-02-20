@@ -1,5 +1,7 @@
 networks:
-  n8n_net:
+  default:
+    name: docker-network
+    external: true
 
 x-n8n: &service-n8n
   image: n8nio/n8n:latest
@@ -81,20 +83,4 @@ services:
     environment:
       - TZ=America/Sao_Paulo
 
-  ollama:
-      image: ghcr.io/open-webui/open-webui:ollama
-      restart: unless-stopped
-      container_name: ollama
-      networks: ['n8n_net']
-      volumes:
-          - ./open-webui:/app/backend/data
-          - ./ollama:/root/.ollama
-      ports:
-        - 8089:8080
-        - 11434:11434
-      environment:
-        - TZ=America/Sao_Paulo
-        - OLLAMA_HOST=ollama:11434
-
 # Acesse o N8N em http://localhost:5678
-# Acesse o Open-webui em http://localhost:8089

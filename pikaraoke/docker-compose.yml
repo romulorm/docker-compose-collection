@@ -19,5 +19,7 @@ services:
     ## Forward host port 80 to the pikaraoke web interface on 5555, adjust host port as necessary
     ports:
       - 5555:5555
+    environment:
+      - TZ=America/Sao_Paulo
 
     # Acesse o Pikaraokê em https://localhost:8089
