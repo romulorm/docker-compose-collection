@@ -8,7 +8,7 @@
 services:
   pikaraoke:
     image: vicwomg/pikaraoke:latest
-    container_name: PiKaraoke
+    container_name: pikaraoke
     ## Below Host network mode may work better on some systems and replace manual IP configuration. Does not work on OSX
     network_mode: host
     volumes:
@@ -22,4 +22,5 @@ services:
     ## add additional command line args if needed in example below: manually specified URL
     #command: -l10 --url http://<YOUR_LAN_IP>
 
-    # Acesse o Pikaraokê em https://localhost:5555
+    # Acesse o Pikaraokê no monitor principal em: https://localhost:5555/splash
+    # e nos smartphones em: https://localhost:5555
