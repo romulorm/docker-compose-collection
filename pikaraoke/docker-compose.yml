@@ -11,8 +11,6 @@ services:
     container_name: PiKaraoke
     ## Below Host network mode may work better on some systems and replace manual IP configuration. Does not work on OSX
     network_mode: host
-    ## add additional command line args if needed in example below: debug level logging, manually specified URL
-    #command: -l10 --url http://<YOUR_LAN_IP>
     volumes:
       - ./songs:/app/pikaraoke-songs # Replace with local dir. to persist songs outside the container
     restart: unless-stopped
@@ -21,5 +19,7 @@ services:
       - 5555:5555
     environment:
       - TZ=America/Sao_Paulo
+    ## add additional command line args if needed in example below: manually specified URL
+    #command: -l10 --url http://<YOUR_LAN_IP>
 
-    # Acesse o Pikaraokê em https://localhost:8089
+    # Acesse o Pikaraokê em https://localhost:5555
