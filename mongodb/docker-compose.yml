@@ -1,0 +1,38 @@
+networks:
+  default:
+    name: docker-network
+    external: true
+
+services:
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: toor
+      MONGO_INITDB_DATABASE: test
+    volumes:
+      - ./data/db:/data/db
+  
+  mongo-express:
+    ports:
+      - 8081:8081
+    image: mongo-express
+    deploy:
+      restart_policy:
+        condition: unless-stopped
+    environment:
+      ME_CONFIG_MONGODB_ADMINUSERNAME: 'root'
+      ME_CONFIG_MONGODB_ADMINPASSWORD: 'toor'
+      ME_CONFIG_BASICAUTH_USERNAME: 'user'
+      ME_CONFIG_BASICAUTH_PASSWORD: 'pass'
+      ME_CONFIG_MONGODB_ENABLE_ADMIN: 'true'
+      ME_CONFIG_MONGODB_SERVER: 'mongo'
+    links:
+      - mongo
+    depends_on:
+      - mongo
