@@ -1,3 +1,5 @@
+# Open-webui com Ollama integrado
+
 networks:
   default:
     name: docker-network
@@ -6,6 +8,7 @@ networks:
 services:
   ollama:
       image: ghcr.io/open-webui/open-webui:ollama
+      runtime: amd
       restart: unless-stopped
       container_name: ollama
       volumes:
@@ -17,5 +20,11 @@ services:
       environment:
         - TZ=America/Sao_Paulo
         - OLLAMA_HOST=0.0.0.0:11434
+        - AMD_VISIBLE_DEVICES=all
+      devices:
+        - /dev/kfd
+        - /dev/dri
+      security_opt:
+        - seccomp=unconfined
 
 # Acesse o Open-webui em http://localhost:8089
