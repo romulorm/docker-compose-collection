@@ -1,0 +1,20 @@
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: mssql-server
+    environment:
+      ACCEPT_EULA: Y
+      # Username: sa
+      SA_PASSWORD: "YourStrong@Password123" # Replace with a strong password
+      # Use 'Developer' for development or 'Express' for the free Express edition
+      MSSQL_PID: Express 
+    ports:
+      - "1433:1433" # Maps host port 1433 to container port 1433
+    volumes:
+      # Persist data on the host filesystem
+      - mssql-data:/var/opt/mssql 
+    restart: unless-stopped
+
+volumes:
+  mssql-data:
+    driver: local
