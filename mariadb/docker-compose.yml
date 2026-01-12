@@ -1,0 +1,28 @@
+services:
+    mariadb:
+        image: mariadb:latest
+        container_name: mariadb
+        restart: unless-stopped
+        environment:
+            MARIADB_USER: user
+            MARIADB_PASSWORD: mariadbPW
+            MARIADB_ROOT_PASSWORD: mariadbrootPW
+        volumes:
+            - mariadb-data:/var/lib/mysql/data/
+            - mariadb-data:/var/lib/mysql/logs/
+        ports:
+            - 3306:3306
+        
+    phpmyadmin:
+        image: phpmyadmin:latest
+        restart: always
+        ports:
+            - 8080:80
+        environment:
+            - PMA_ARBITRARY=1
+
+    # Acesse o phpMyAdmin via http://localhost:8080
+
+volumes:
+  mariadb-data:
+    driver: local
