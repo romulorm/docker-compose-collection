@@ -11,5 +11,6 @@ services:
         environment:
             - MTX_WEBRTCADDITIONALHOSTS=10.10.10.10
             - MTX_RTSPTRANSPORTS=tcp,udp
+            - TZ=America/Sao_Paulo
         volumes:
           - ./mediamtx.yml:/mediamtx.yml
