@@ -3,6 +3,7 @@ services:
     image: mcr.microsoft.com/mssql/server:2022-latest
     container_name: mssql-server
     environment:
+      TZ: America/Sao_Paulo
       ACCEPT_EULA: Y
       # Username: sa
       SA_PASSWORD: "YourStrong@Password123" # Replace with a strong password

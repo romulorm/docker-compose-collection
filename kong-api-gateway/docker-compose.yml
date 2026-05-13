@@ -32,6 +32,7 @@ services:
       - db
     environment:
       <<: *kong-env
+      TZ: America/Sao_Paulo
     secrets:
       - kong_postgres_password
     networks:
@@ -46,6 +47,7 @@ services:
       - db
     environment:
       <<: *kong-env
+      TZ: America/Sao_Paulo
     secrets:
       - kong_postgres_password
     networks:
@@ -57,6 +59,7 @@ services:
     user: "${KONG_USER:-kong}"
     environment:
       <<: *kong-env
+      TZ: America/Sao_Paulo
       KONG_ADMIN_ACCESS_LOG: /dev/stdout
       KONG_ADMIN_ERROR_LOG: /dev/stderr
       KONG_PROXY_LISTEN: "${KONG_PROXY_LISTEN:-0.0.0.0:8010}"

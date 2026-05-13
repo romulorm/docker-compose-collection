@@ -87,6 +87,8 @@ services:
     networks:
       - penpot
 
+      
+
     # labels:
       # - "traefik.enable=true"
 
@@ -100,6 +102,7 @@ services:
 
     environment:
       << : [*penpot-flags, *penpot-http-body-size]
+      TZ: America/Sao_Paulo
 
   penpot-backend:
     image: "penpotapp/backend:${PENPOT_VERSION:-latest}"
@@ -121,6 +124,7 @@ services:
 
     environment:
       << : [*penpot-flags, *penpot-public-uri, *penpot-http-body-size]
+      TZ: America/Sao_Paulo
 
       ## Penpot SECRET KEY. It serves as a master key from which other keys for subsystems
       ## (eg http sessions, or invitations) are derived.
@@ -232,6 +236,7 @@ services:
       - POSTGRES_DB=penpot
       - POSTGRES_USER=penpot
       - POSTGRES_PASSWORD=penpot
+      - TZ=America/Sao_Paulo
 
   penpot-redis:
     image: redis:7.2
@@ -260,6 +265,8 @@ services:
       - "1080:1080"
     networks:
       - penpot
+    environment:
+      - TZ=America/Sao_Paulo
 
   ## Example configuration of MiniIO (S3 compatible object storage service); If you don't
   ## have preference, then just use filesystem, this is here just for the completeness.

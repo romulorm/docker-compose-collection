@@ -43,6 +43,8 @@ services:
     depends_on:
       - app
     logging: *default-logging
+    environment:
+      TZ: America/Sao_Paulo
 
   mysql:
     image: mysql:8
@@ -79,6 +81,8 @@ services:
       timeout: 5s
       retries: 5
     logging: *default-logging
+    environment:
+      TZ: America/Sao_Paulo
 
 networks:
   app-network:
