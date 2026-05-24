@@ -1,0 +1,8 @@
+name: krakend
+services:
+    krakend:
+        image: krakend:2.13.6
+        ports:
+            - 8080:8080
+        volumes:
+            - krakend-data:/etc/krakend/
