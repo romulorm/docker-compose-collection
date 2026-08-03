@@ -1,0 +1,18 @@
+services:
+    portainer-ce:
+        env_file:
+        - .env
+        image: portainer/portainer-ce:${PORTAINER_VERSION}
+        volumes:
+            - './portainer_data:/data'
+            - '/var/run/docker.sock:/var/run/docker.sock'
+        restart: unless-stopped
+        container_name: portainer
+        ports:
+            - 9443:9443
+            - 8100:8000
+        environment:
+            - TZ=America/Sao_Paulo
+
+
+# Acesse o Portainer em https://localhost:9443

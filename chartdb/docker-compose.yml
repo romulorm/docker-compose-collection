@@ -1,0 +1,10 @@
+services:
+    chartdb:
+      image: ghcr.io/chartdb/chartdb:latest
+      environment:
+          - OPENAI_API_ENDPOINT=${OPENAI_API_ENDPOINT}
+          - OPENAI_API_KEY=${OPENAI_API_KEY}
+          - LLM_MODEL_NAME=${LLM_MODEL_NAME}
+          - DISABLE_ANALYTICS=${DISABLE_ANALYTICS}
+      ports:
+          - 8084:80
