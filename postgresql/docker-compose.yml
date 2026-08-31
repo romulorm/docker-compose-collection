@@ -2,6 +2,7 @@ services:
   postgres:
     image: postgres:18-trixie
     container_name: postgresql
+    restart: unless-stopped
     ports:
       - "5432:5432"
     environment:
